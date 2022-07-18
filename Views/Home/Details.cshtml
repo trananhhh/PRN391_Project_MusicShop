@@ -1,0 +1,53 @@
+﻿<div class="product_image_area">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <div class="s_product_img">
+                    <img class="d-block w-100"
+                         src="https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/b6/08/14/b608145a-cbe3-452f-51c6-4732d36fec7e/190295287139.jpg/1000x1000bb.webp"
+                         alt="First slide" />
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <br />
+                    <br />
+                    <h3>Vũ Trụ Song Song</h3>
+                    <h2>$25.00</h2>
+                    <br />
+                    <ul class="list">
+                        <li>
+                            <a class="active" href="#">
+                                <span>Genre</span> : POP
+                            </a>
+                        </li>
+                        <li>
+                            <a class="active" href="#"> <span>Artist</span> : Vũ.</a>
+                        </li>
+                        <li>
+                            <a href="#"> <span>Availibility</span> : In Stock</a>
+                        </li>
+                    </ul>
+                    <br />
+                    <br />
+                    <div class="product_count">
+                        <label for="qty">Quantity:</label>
+                        <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
+                               class="input-text qty" />
+                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                class="increase items-count" type="button">
+                            <i class="lnr lnr-chevron-up"></i>
+                        </button>
+                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                class="reduced items-count" type="button">
+                            <i class="lnr lnr-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="card_area">
+                        <a class="main_btn" href="#">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
