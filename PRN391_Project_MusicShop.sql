@@ -50,7 +50,7 @@ go
 insert into Albums values
 (1, 9, N'Vũ Trụ Song Song', 25.00, 'https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/b6/08/14/b608145a-cbe3-452f-51c6-4732d36fec7e/190295287139.jpg/1000x1000bb.webp'),
 (1, 5, N'÷ (Deluxe)', 25.00, 'https://is4-ssl.mzstatic.com/image/thumb/Features116/v4/17/0c/9d/170c9d95-1f43-eb0d-cf43-1ac6ee26877e/source/600x600bb.webp'),
-(6, 3, N'Folklore', 25.00, '"https://is1-ssl.mzstatic.com/image/thumb/Video124/v4/81/02/25/810225cc-0525-24ca-31fb-0ab529b8f9e9/Job612efb24-1e81-4ea6-9fd7-dd5a8a07be22-108255586-PreviewImage_PreviewImageIntermediate_preview_image_nonvideo-Time1608057481114.png/600x600bb.webp'),
+(6, 3, N'Folklore', 25.00, 'https://is1-ssl.mzstatic.com/image/thumb/Video124/v4/81/02/25/810225cc-0525-24ca-31fb-0ab529b8f9e9/Job612efb24-1e81-4ea6-9fd7-dd5a8a07be22-108255586-PreviewImage_PreviewImageIntermediate_preview_image_nonvideo-Time1608057481114.png/600x600bb-60.jpg'),
 (10, 7, N'Happier Than Ever', 25.00, 'https://is2-ssl.mzstatic.com/image/thumb/Features125/v4/e4/32/24/e43224c7-47f5-d32c-a046-1c508c4fb667/source/1000x1000bb.webp'),
 (4, 4, 'After Hours', 25.00, 'https://is2-ssl.mzstatic.com/image/thumb/Video115/v4/f3/38/fa/f338fa6e-e347-bdf3-2ac3-6ed3401bfa25/Job299f5cf8-54d0-4d72-874c-3b5d5ee7d593-114961634-PreviewImage_preview_image_nonvideo_sdr-Time1623163436305.png/600x600bb.webp'),
 (2, 2, 'Scorpion', 25.00, 'https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/1f/37/43/1f374304-2e04-2be3-53ea-41dd6f0b6fb8/00602567892410.rgb.jpg/600x600bb.webp'),

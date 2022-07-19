@@ -1,5 +1,6 @@
-﻿<!--================Home Banner Area =================-->
-<section class="home_banner_area mb-40">
+﻿@model IEnumerable<Project_MusicShop.Models.Album>
+<!--================Home Banner Area =================-->
+<section class="home_banner_area mb-40" style="margin-right:-234px; margin-left:-234px;">
     <div class="banner_inner d-flex align-items-center">
         <div class="container">
             <div class="banner_content row">
@@ -73,133 +74,48 @@
         </div>
 
         <div class="row">
-            <!-- <div class="col-lg-6">
-              <div class="new_product">
-                <h5 class="text-uppercase">new release</h5>
-                <h3 class="text-uppercase">Men’s summer t-shirt</h3>
-                <div class="product-img">
-                  <img class="img-fluid"
-                    src="https://is2-ssl.mzstatic.com/image/thumb/Video115/v4/f3/38/fa/f338fa6e-e347-bdf3-2ac3-6ed3401bfa25/Job299f5cf8-54d0-4d72-874c-3b5d5ee7d593-114961634-PreviewImage_preview_image_nonvideo_sdr-Time1623163436305.png/600x600bb.webp"
-                    alt="" />
-                </div>
-                <h4>$120.70</h4>
-                <a href="#" class="main_btn">Add to cart</a>
-              </div>
-            </div> -->
-
             <div class="col-lg-12 mt-5 mt-lg-0">
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <div class="product-img">
-                                <img class="img-fluid w-100"
-                                     src="https://is2-ssl.mzstatic.com/image/thumb/Video115/v4/f3/38/fa/f338fa6e-e347-bdf3-2ac3-6ed3401bfa25/Job299f5cf8-54d0-4d72-874c-3b5d5ee7d593-114961634-PreviewImage_preview_image_nonvideo_sdr-Time1623163436305.png/600x600bb.webp"
-                                     alt="" />
-                                <div class="p_icon">
-                                    <a href="#">
-                                        <i class="ti-eye"></i>
-                                    </a>
-                                    <a href="#">
-                                        <i class="ti-shopping-cart"></i>
-                                    </a>
+                    @{
+                        var cnt = 0;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        {
+                            cnt++;
+                            if (cnt == 5)
+                                break;
+                        }
+                            <div class="col-lg-3 col-md-6">
+                                <div class="single-product">
+                                    <div class="product-img">
+                                        <img class="img-fluid w-100"
+                                             src="@item.AlbumUrl"
+                                             alt="" />
+                                        <div class="p_icon">
+                                            <a href="#">
+                                                <i class="ti-eye"></i>
+                                            </a>
+                                            <a href="#">
+                                                <i class="ti-shopping-cart"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-btm">
+                                        <a href="#" class="d-block">
+                                            <h4>@item.Title</h4>
+                                        </a>
+                                        <div class="mt-3">
+                                            <span class="mr-4">$@item.Price.00</span>
+                                            @*<del>$35.00</del>*@
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="product-btm">
-                                <a href="#" class="d-block">
-                                    <h4>After Hours</h4>
-                                </a>
-                                <div class="mt-3">
-                                    <span class="mr-4">$25.00</span>
-                                    <del>$35.00</del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <div class="product-img">
-                                <img class="img-fluid w-100"
-                                     src="https://is2-ssl.mzstatic.com/image/thumb/Features125/v4/e4/32/24/e43224c7-47f5-d32c-a046-1c508c4fb667/source/1000x1000bb.webp"
-                                     alt="" />
-                                <div class="p_icon">
-                                    <a href="#">
-                                        <i class="ti-eye"></i>
-                                    </a>
-                                    <a href="#">
-                                        <i class="ti-shopping-cart"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="product-btm">
-                                <a href="#" class="d-block">
-                                    <h4>Happier Than Ever</h4>
-                                </a>
-                                <div class="mt-3">
-                                    <span class="mr-4">$25.00</span>
-                                    <del>$35.00</del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <div class="product-img">
-                                <img class="img-fluid w-100"
-                                     src="https://is1-ssl.mzstatic.com/image/thumb/Video124/v4/81/02/25/810225cc-0525-24ca-31fb-0ab529b8f9e9/Job612efb24-1e81-4ea6-9fd7-dd5a8a07be22-108255586-PreviewImage_PreviewImageIntermediate_preview_image_nonvideo-Time1608057481114.png/600x600bb.webp"
-                                     alt="" />
-                                <div class="p_icon">
-                                    <a href="#">
-                                        <i class="ti-eye"></i>
-                                    </a>
-                                    <a href="#">
-                                        <i class="ti-shopping-cart"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="product-btm">
-                                <a href="#" class="d-block">
-                                    <h4>Folklore</h4>
-                                </a>
-                                <div class="mt-3">
-                                    <span class="mr-4">$25.00</span>
-                                    <del>$35.00</del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <div class="product-img">
-                                <img class="img-fluid w-100"
-                                     src="https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/b6/08/14/b608145a-cbe3-452f-51c6-4732d36fec7e/190295287139.jpg/1000x1000bb.webp"
-                                     alt="" />
-                                <div class="p_icon">
-                                    <a href="#">
-                                        <i class="ti-eye"></i>
-                                    </a>
-                                    <a href="#">
-                                        <i class="ti-shopping-cart"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="product-btm">
-                                <a href="#" class="d-block">
-                                    <h4>Vũ Trụ Song Song</h4>
-                                </a>
-                                <div class="mt-3">
-                                    <span class="mr-4">$25.00</span>
-                                    <del>$35.00</del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
-    </div>
 </section>
 <!--================ End New Product Area =================-->
 <!--================ Inspired Product Area =================-->

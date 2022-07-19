@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Project_MusicShop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,11 @@ namespace Project_MusicShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            //services.AddDbContext<CinemaContext>(option
+            //    => option.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+            services.AddDbContext<PRN391_Project_MusicShopContext>(option 
+                => option.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

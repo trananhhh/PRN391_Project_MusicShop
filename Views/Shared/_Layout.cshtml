@@ -41,27 +41,37 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset w-100" id="navbarSupportedContent">
                         <div class="row w-100 mr-0">
-                            <div class="col-lg-7 pr-0">
+                            <div class="col-lg-10 pr-0">
                                 <ul class="nav navbar-nav center_nav pull-right">
+
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/Home">Home</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/Home/Shop">Shop</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Shop">Shop</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/Home/Details">Details</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Details">Details</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/Home/Cart">Cart</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Cart">Cart</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/Home/Checkout">Checkout</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Checkout">Checkout</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Albums" asp-action="Index">Albums</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Artists" asp-action="Index">Artists</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Genres" asp-action="Index">Genres</a>
                                     </li>
                                 </ul>
                             </div>
 
-                            <div class="col-lg-5 pr-0">
+                            <div class="col-lg-2 pr-0">
                                 <ul class="nav navbar-nav navbar-right right_nav pull-right">
                                     <li class="nav-item">
                                         <a href="#" class="icons">
@@ -89,15 +99,15 @@
         </div>
     </header>
     <!--================Header Menu Area =================-->
-    <div class="body-container">
+    <div class="container body-container">
      @RenderBody()
     </div>
 
-    <footer class="border-top footer text-muted" style="margin-top: auto">
+    @*<footer class="border-top footer text-muted" style="margin-top: auto">
         <div class="container">
             &copy; 2022 - Project_MusicShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

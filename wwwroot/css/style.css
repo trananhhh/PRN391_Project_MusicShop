@@ -5,17 +5,19 @@ body {
     font-family: 'Roboto', sans-serif;
     font-weight: normal;
     color: #797979;
+    overflow-x: hidden !important;
 }
 
-html, body{
+html, body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden !important;
 }
 
 .body-container{
     flex:1;
-    height: 100%
+    min-height: 100%;
 }
 
 

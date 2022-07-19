@@ -9,23 +9,22 @@ using Project_MusicShop.Models;
 
 namespace Project_MusicShop.Controllers
 {
-    public class AlbumsController : Controller
+    public class GenresController : Controller
     {
         private readonly PRN391_Project_MusicShopContext _context;
 
-        public AlbumsController(PRN391_Project_MusicShopContext context)
+        public GenresController(PRN391_Project_MusicShopContext context)
         {
             _context = context;
         }
 
-        // GET: Albums
+        // GET: Genres
         public async Task<IActionResult> Index()
         {
-            var pRN391_Project_MusicShopContext = _context.Albums.Include(a => a.Artist).Include(a => a.Genre);
-            return View(await pRN391_Project_MusicShopContext.ToListAsync());
+            return View(await _context.Genres.ToListAsync());
         }
 
-        // GET: Albums/Details/5
+        // GET: Genres/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,45 +32,39 @@ namespace Project_MusicShop.Controllers
                 return NotFound();
             }
 
-            var album = await _context.Albums
-                .Include(a => a.Artist)
-                .Include(a => a.Genre)
-                .FirstOrDefaultAsync(m => m.AlbumId == id);
-            if (album == null)
+            var genre = await _context.Genres
+                .FirstOrDefaultAsync(m => m.GenreId == id);
+            if (genre == null)
             {
                 return NotFound();
             }
 
-            return View(album);
+            return View(genre);
         }
 
-        // GET: Albums/Create
+        // GET: Genres/Create
         public IActionResult Create()
         {
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Name");
-            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name");
             return View();
         }
 
-        // POST: Albums/Create
+        // POST: Genres/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AlbumId,GenreId,ArtistId,Title,Price,AlbumUrl")] Album album)
+        public async Task<IActionResult> Create([Bind("GenreId,Name,Description")] Genre genre)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(album);
+                _context.Add(genre);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Name", album.ArtistId);
-            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name", album.GenreId);
-            return View(album);
+            return View(genre);
         }
 
-        // GET: Albums/Edit/5
+        // GET: Genres/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,24 +72,22 @@ namespace Project_MusicShop.Controllers
                 return NotFound();
             }
 
-            var album = await _context.Albums.FindAsync(id);
-            if (album == null)
+            var genre = await _context.Genres.FindAsync(id);
+            if (genre == null)
             {
                 return NotFound();
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Name", album.ArtistId);
-            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name", album.GenreId);
-            return View(album);
+            return View(genre);
         }
 
-        // POST: Albums/Edit/5
+        // POST: Genres/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AlbumId,GenreId,ArtistId,Title,Price,AlbumUrl")] Album album)
+        public async Task<IActionResult> Edit(int id, [Bind("GenreId,Name,Description")] Genre genre)
         {
-            if (id != album.AlbumId)
+            if (id != genre.GenreId)
             {
                 return NotFound();
             }
@@ -105,12 +96,12 @@ namespace Project_MusicShop.Controllers
             {
                 try
                 {
-                    _context.Update(album);
+                    _context.Update(genre);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AlbumExists(album.AlbumId))
+                    if (!GenreExists(genre.GenreId))
                     {
                         return NotFound();
                     }
@@ -121,12 +112,10 @@ namespace Project_MusicShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Name", album.ArtistId);
-            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name", album.GenreId);
-            return View(album);
+            return View(genre);
         }
 
-        // GET: Albums/Delete/5
+        // GET: Genres/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,32 +123,30 @@ namespace Project_MusicShop.Controllers
                 return NotFound();
             }
 
-            var album = await _context.Albums
-                .Include(a => a.Artist)
-                .Include(a => a.Genre)
-                .FirstOrDefaultAsync(m => m.AlbumId == id);
-            if (album == null)
+            var genre = await _context.Genres
+                .FirstOrDefaultAsync(m => m.GenreId == id);
+            if (genre == null)
             {
                 return NotFound();
             }
 
-            return View(album);
+            return View(genre);
         }
 
-        // POST: Albums/Delete/5
+        // POST: Genres/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var album = await _context.Albums.FindAsync(id);
-            _context.Albums.Remove(album);
+            var genre = await _context.Genres.FindAsync(id);
+            _context.Genres.Remove(genre);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AlbumExists(int id)
+        private bool GenreExists(int id)
         {
-            return _context.Albums.Any(e => e.AlbumId == id);
+            return _context.Genres.Any(e => e.GenreId == id);
         }
     }
 }
