@@ -3533,6 +3533,8 @@ h6 {
 .single-product {
     text-align: center;
     margin-bottom: 50px;
+    display: block;
+    text-decoration: none;
 }
 
     .single-product .product-img {
@@ -3934,7 +3936,7 @@ h6 {
 }
 
 .product_image_area {
-    padding-top: 120px;
+    padding-top: 80px;
 }
 
 .s_product_img .carousel {

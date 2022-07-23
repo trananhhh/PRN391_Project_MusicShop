@@ -62,9 +62,25 @@ namespace Project_MusicShop.Controllers
             ViewData["filterArtists"] = Artists;
             return View();
         }
-        public IActionResult Details()
+        public async Task<IActionResult> DetailsAsync(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Album album = await _context.Albums
+                .Include(a => a.Artist)
+                .Include(a => a.Genre)
+                .FirstOrDefaultAsync(m => m.AlbumId == id);
+
+            if (album == null)
+            {
+                return NotFound();
+            }
+
+            return View(album);
+            //return View();
         }
         public IActionResult Cart()
         {
