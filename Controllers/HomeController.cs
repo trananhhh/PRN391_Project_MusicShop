@@ -23,6 +23,15 @@ namespace Project_MusicShop.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
+            /*
+            Show show = new Show();
+            show.ShowDate = DateTime.Now;
+            var cinemaContext = _context.Shows.Include(s => s.Film).Include(s => s.Room);
+            ViewData["shows"] = await cinemaContext.OrderByDescending(s => s.ShowId).ToListAsync();
+            ViewData["FilmId"] = new SelectList(_context.Films.ToList<Film>(), "FilmId", "Title");
+            ViewData["RoomID"] = new SelectList(_context.Rooms.ToList<Room>(), "RoomId", "Name");
+            ViewBag.ShowDate = DateTime.Now;
+            */
             var pRN391_Project_MusicShopContext = _context.Albums.Include(a => a.Artist).Include(a => a.Genre);
             return View(await pRN391_Project_MusicShopContext.ToListAsync());
         }
@@ -32,8 +41,26 @@ namespace Project_MusicShop.Controllers
         }
         public async Task<IActionResult> ShopAsync()
         {
-            var pRN391_Project_MusicShopContext = _context.Albums.Include(a => a.Artist).Include(a => a.Genre);
-            return View(await pRN391_Project_MusicShopContext.ToListAsync());
+            //var pRN391_Project_MusicShopContext = ;
+            ViewData["genres"] = await _context.Genres.ToArrayAsync();
+            ViewData["albums"] = await _context.Albums.ToListAsync();
+            ViewData["artists"] = await _context.Artists.ToListAsync();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ShopAsync(List<int>? Genres, List<int>? Artists)
+        {
+            ViewData["genres"] = await _context.Genres.ToArrayAsync();
+            ViewData["artists"] = await _context.Artists.ToListAsync();
+            ViewData["albums"] = await _context.Albums
+                .Where(a => 
+                    (Genres.Count == 0 || Genres.Contains((int)a.GenreId)) && 
+                    (Artists.Count == 0 || Artists.Contains((int)a.ArtistId)))
+                .ToListAsync();
+            ViewData["filterGenres"] = Genres;
+            ViewData["filterArtists"] = Artists;
+            return View();
         }
         public IActionResult Details()
         {
