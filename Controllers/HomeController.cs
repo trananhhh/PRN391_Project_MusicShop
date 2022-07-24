@@ -87,43 +87,113 @@ namespace Project_MusicShop.Controllers
         }
         public IActionResult Cart()
         {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> CartAsync(int? albumId, string? price, int? quantity)
-        {
-            //Update after login features done
-            int currentAccountId = 1;
-
-            //List<Order> tmpOrderList = _context.Orders.Where(o => o.AccountId == currentAccountId && o.Total == -1).ToList();
-            //Order cartOrder = tmpOrderList[0];
-            Order cartOrder = _context.Orders.Where(o => o.AccountId == currentAccountId && o.Total == -1).FirstOrDefault();
-            if(cartOrder == null)
+            var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            if(cart != null)
             {
-                cartOrder = new Order();
-                cartOrder.AccountId = currentAccountId;
-                cartOrder.Total = -1;
-                _context.Orders.Add(cartOrder);
+                ViewBag.total = cart.Sum(item => item.album.Price * item.quantity);
             }
-            int cartId = cartOrder.OrderId;
+            return View(cart);
+        }
 
-            OrderDetail newOrderDetails = new OrderDetail();
-            newOrderDetails.AlbumId = (int)albumId;
-            newOrderDetails.UnitPrice = (float)Convert.ToDouble(price);
-            newOrderDetails.Quantity = (int)quantity;
-            newOrderDetails.OrderId = cartId;
-            _context.OrderDetails.Add(newOrderDetails);
+        private int isExist(int? id)
+        {
+            List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            for (int i = 0; i < cart.Count; i++)
+            {
+                if (cart[i].album.AlbumId == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
 
-            List<OrderDetail> currentCart = new List<OrderDetail>();
-            currentCart = await _context.OrderDetails.Where(o => o.OrderId == cartId).Include(a => a.Album).ToListAsync();
+        [HttpPost]
+        public IActionResult CartAsync(int? albumId, string? price, int? quantity)
+        {
+            //int? roleId = HttpContext.Session.GetInt32("roleId") ?? -1;
+            //if(roleId == 1)
+            //{
+                ProductModel productModel = new ProductModel();
+                if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart") == null)
+                {
+                    List<Item> cart = new List<Item>();
+                    cart.Add(new Item { album = productModel.find(albumId), quantity = quantity });
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                }
+                else
+                {
+                    int index = isExist(albumId);
+                    List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
 
-            ViewData["currentCart"] = currentCart;
+                    if (index != -1)
+                    {
+                        Item item = cart[index];
+                        int? currentQuantity = item.quantity + quantity;
+                        item.quantity = currentQuantity;
+                    }
+                    else if (index == -1)
+                    {
+                        cart.Add(new Item { album = productModel.find(albumId), quantity = quantity });
+                    }
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
 
-            return View();
+
+                }
+                return RedirectToAction("Cart");
+            //}
+            
+            
         }
         public IActionResult Checkout()
         {
+            var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            if (cart != null)
+            {
+                ViewBag.total = cart.Sum(item => item.album.Price * item.quantity);
+            }
+            ViewData["cart"] = cart;
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CheckOut([Bind("AccountId", "OrderDate", "FirstName", "LastName", "Address", "City", "State", "Country", "Phone", "Total")] Order order)
+        {
+            DateTime orderdate = DateTime.Now;
+            List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            _context.Add(new Order(order.AccountId, 
+                order.OrderDate, 
+                order.FirstName, 
+                order.LastName, 
+                order.Address, 
+                order.City, 
+                order.State, 
+                order.Country, 
+                order.Phone, 
+                order.Total));
+            _context.SaveChanges();
+            Order lastOrder = _context.Orders.OrderBy(x => x.OrderId).LastOrDefault();
+            int lastOrderId = 1;
+            if (lastOrder != null)
+            {
+                lastOrderId = lastOrder.OrderId;
+            }
+            foreach (Item item in cart)
+            {
+                OrderDetail orderDetail = new OrderDetail()
+                {
+                    OrderId = lastOrderId,
+                    AlbumId = item.album.AlbumId,
+                    Quantity = (int)item.quantity,
+                    UnitPrice = (int)item.quantity * item.album.Price
+                };
+                _context.Add(orderDetail);
+                _context.SaveChanges();
+
+            }
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", null);
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -147,6 +217,8 @@ namespace Project_MusicShop.Controllers
             if (acc1!=null){
                 HttpContext.Session.SetInt32("roleId", acc1.Role);
                 HttpContext.Session.SetString("username", acc1.Username);
+                HttpContext.Session.SetInt32("accountid", acc1.AccountId);
+
                 return RedirectToAction(nameof(Index));
             }else{
                 if (action.Equals("register"))
@@ -156,6 +228,7 @@ namespace Project_MusicShop.Controllers
                     _context.SaveChanges();
                     HttpContext.Session.SetInt32("roleId", acc.Role);
                     HttpContext.Session.SetString("username", acc.Username);
+                    HttpContext.Session.SetInt32("accountid", acc.AccountId);
                     return RedirectToAction(nameof(Index));
                 }
                 return View();
@@ -166,7 +239,7 @@ namespace Project_MusicShop.Controllers
         {
             HttpContext.Session.SetString("username", "");
             HttpContext.Session.SetInt32("roleId", -1);
-
+            HttpContext.Session.SetInt32("accountid", -1);
             return RedirectToAction(nameof(Index));
         }
     }

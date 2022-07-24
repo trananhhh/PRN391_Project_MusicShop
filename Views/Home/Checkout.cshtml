@@ -1,34 +1,41 @@
-﻿<section class="checkout_area section_gap">
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+@model Order
+@{
+    int? accountid = HttpContextAccessor.HttpContext.Session.GetInt32("accountid") ?? -1;
+}
+<section class="checkout_area section_gap">
     <div class="container">
         <div class="billing_details">
             <div class="row">
                 <div class="col-lg-8">
                     <h3>Billing Details</h3>
-                    <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                    <form class="row contact_form" asp-controller="Home" asp-action="CheckOut" name="orderform" method="post" novalidate="novalidate">
                         <div class="col-md-6 form-group ">
-                            <input type="text" class="form-control" placeholder="First name" id="first" name="name" />
-                        </div>
-                        <div class="col-md-6 form-group ">
-                            <input type="text" class="form-control" placeholder="Last name" id="last" name="name" />
+                            <input asp-for="FirstName" type="text" class="form-control" placeholder="First name" />
                         </div>
                         <div class="col-md-6 form-group ">
-                            <input type="text" class="form-control" placeholder="Phone number" id="number" name="number" />
-                        </div>
-                        <div class="col-md-6 form-group ">
-                            <input type="text" class="form-control" placeholder="Email Address" id="email" name="email" />
+                            <input asp-for="LastName" type="text" class="form-control" placeholder="Last name" />
                         </div>
                         <div class="col-md-12 form-group ">
-                            <input type="text" class="form-control" placeholder="Address" id="address" name="address" />
+                            <input asp-for="Phone" type="text" class="form-control" placeholder="Phone number" />
                         </div>
                         <div class="col-md-12 form-group ">
-                            <input type="text" class="form-control" placeholder="City" id="city" name="city" />
+                            <input asp-for="Address" type="text" class="form-control" placeholder="Address" />
                         </div>
                         <div class="col-md-12 form-group ">
-                            <input type="text" class="form-control" placeholder="State" id="state" name="state" />
+                            <input type="text" class="form-control" placeholder="City" asp-for="City" />
                         </div>
                         <div class="col-md-12 form-group ">
-                            <input type="text" class="form-control" placeholder="Country" id="country" name="country" />
+                            <input type="text" class="form-control" placeholder="State" asp-for="State" />
                         </div>
+                        <div class="col-md-12 form-group ">
+                            <input type="text" class="form-control" placeholder="Country" asp-for="Country" />
+                        </div>
+                        <input type="text" asp-for="AccountId" value="@accountid" />
+                        <input type="text" asp-for="Total" value="ViewBag.total" />
+                        <input type="text" asp-for="OrderDate" value="@DateTime.Now" />
+
                     </form>
                 </div>
                 <div class="col-lg-4">
@@ -41,49 +48,36 @@
                                     <span>Total</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    Fresh Blackberry
-                                    <span class="middle">x 02</span>
-                                    <span class="last">$720.00</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Fresh Tomatoes
-                                    <span class="middle">x 02</span>
-                                    <span class="last">$720.00</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Fresh Brocoli
-                                    <span class="middle">x 02</span>
-                                    <span class="last">$720.00</span>
-                                </a>
-                            </li>
+                            @foreach (Item item in ViewBag.cart)
+                            {
+                                <li>
+                                    <a href="#">
+                                        @item.album.Title
+                                        <span class="middle">x @item.quantity</span>
+                                        @{
+                                            int subPrice = (int)(item.quantity * item.album.Price);
+                                        }
+                                        <span class="last">$@subPrice</span>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                         <ul class="list list_2">
                             <li>
                                 <a href="#">
                                     Subtotal
-                                    <span>$2160.00</span>
+                                    <span>$@ViewBag.total.00</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
-                                    Shipping
-                                    <span>Flat rate: $50.00</span>
-                                </a>
-                            </li>
-                            <li>
+
                                 <a href="#">
                                     Total
-                                    <span>$2210.00</span>
+                                    <span>$@ViewBag.total</span>
                                 </a>
                             </li>
                         </ul>
-                        <a class="main_btn" href="#">Order</a>
+                        <button type="submit" class="main_btn" onclick="document.orderform.submit()">Order</button>
                     </div>
                 </div>
             </div>

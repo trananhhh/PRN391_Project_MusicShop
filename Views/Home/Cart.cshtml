@@ -14,68 +14,76 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in ViewBag.currentCart)
+                        @if (Model != null)
                         {
+
+                            @foreach (Item item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <img class="cart-item-img"
+                                                     src="@item.album.AlbumUrl"
+                                                     alt="" />
+                                            </div>
+                                            <div class="media-body">
+                                                <h4>@item.album.Title</h4>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>$@item.album.Price.00</h5>
+                                    </td>
+                                    <td>
+                                        <div class="product_count">
+                                            <input type="text" name="qty" id="sst" maxlength="12" value="@item.quantity" title="Quantity:"
+                                                   class="input-text qty" />
+                                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                                    class="increase items-count" type="button">
+                                                <i class="lnr lnr-chevron-up"></i>
+                                            </button>
+                                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                                    class="reduced items-count" type="button">
+                                                <i class="lnr lnr-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                     <td>
+                                        @{
+                                            var itemCost = item.quantity * item.album.Price;
+                                        }
+                                        <h5>$@itemCost.00</h5>
+                                    </td>
+                                </tr>
+
+                            }
                             <tr>
+                                <td></td>
+                                <td></td>
                                 <td>
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img class="cart-item-img"
-                                                 src="@item.AlbumUrl"
-                                                 alt="" />
-                                        </div>
-                                        <div class="media-body">
-                                            <h4>@item.Title</h4>
-                                        </div>
-                                    </div>
+                                    <h5>Subtotal</h5>
                                 </td>
                                 <td>
-                                    <h5>$@item.UnitPrice.00</h5>
-                                </td>
-                                <td>
-                                    <div class="product_count">
-                                        <input type="text" name="qty" id="sst" maxlength="12" value="@item.Quantity" title="Quantity:"
-                                               class="input-text qty" />
-                                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                                class="increase items-count" type="button">
-                                            <i class="lnr lnr-chevron-up"></i>
-                                        </button>
-                                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                                class="reduced items-count" type="button">
-                                            <i class="lnr lnr-chevron-down"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td>
-                                    @{ 
-                                        var itemCost = item.Quantity * item.UnitPrice;
-                                    }
-                                    <h5>$@itemCost.00</h5>
+                                    <h5>@ViewBag.total</h5>
                                 </td>
                             </tr>
-
+                            <tr class="out_button_area">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="checkout_btn_inner">
+                                        <a class="gray_btn mr-4" asp-action="Shop">Continue Shopping</a>
+                                        <a class="main_btn" asp-action="Checkout">Proceed to checkout</a>
+                                    </div>
+                                </td>
+                            </tr>
                         }
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <h5>Subtotal</h5>
-                            </td>
-                            <td>
-                                <h5>$2160.00</h5>
-                            </td>
-                        </tr>
-                        <tr class="out_button_area">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div class="checkout_btn_inner">
-                                    <a class="gray_btn mr-4" href="category.html">Continue Shopping</a>
-                                    <a class="main_btn" href="checkout.html">Proceed to checkout</a>
-                                </div>
-                            </td>
-                        </tr>
+                        else
+                        {
+                            <h3>There is currently no albums in cart!</h3>
+                        }
                     </tbody>
                 </table>
             </div>
