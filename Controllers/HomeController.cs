@@ -86,6 +86,38 @@ namespace Project_MusicShop.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> CartAsync(int? albumId, string? price, int? quantity)
+        {
+            //Update after login features done
+            int currentAccountId = 1;
+
+            //List<Order> tmpOrderList = _context.Orders.Where(o => o.AccountId == currentAccountId && o.Total == -1).ToList();
+            //Order cartOrder = tmpOrderList[0];
+            Order cartOrder = _context.Orders.Where(o => o.AccountId == currentAccountId && o.Total == -1).FirstOrDefault();
+            if(cartOrder == null)
+            {
+                cartOrder = new Order();
+                cartOrder.AccountId = currentAccountId;
+                cartOrder.Total = -1;
+                _context.Orders.Add(cartOrder);
+            }
+            int cartId = cartOrder.OrderId;
+
+            OrderDetail newOrderDetails = new OrderDetail();
+            newOrderDetails.AlbumId = (int)albumId;
+            newOrderDetails.UnitPrice = (float)Convert.ToDouble(price);
+            newOrderDetails.Quantity = (int)quantity;
+            newOrderDetails.OrderId = cartId;
+            _context.OrderDetails.Add(newOrderDetails);
+
+            List<OrderDetail> currentCart = new List<OrderDetail>();
+            currentCart = await _context.OrderDetails.Where(o => o.OrderId == cartId).Include(a => a.Album).ToListAsync();
+
+            ViewData["currentCart"] = currentCart;
+
+            return View();
+        }
         public IActionResult Checkout()
         {
             return View();

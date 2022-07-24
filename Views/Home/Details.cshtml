@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
-                <div class="s_product_text">
+                <form method="POST" asp-action="Cart" class="s_product_text">
                     <br />
                     <br />
                     <h3>@Model.Title</h3>
@@ -32,28 +32,29 @@
                             </a>
                         </li>
                         @*<li>
-                            <a href="#"> <span>Availibility</span> : In Stock</a>
-                        </li>*@
+                <a href="#"> <span>Availibility</span> : In Stock</a>
+            </li>*@
                     </ul>
                     <br />
                     <br />
+                    <input type="number" name="albumId" value="@Model.AlbumId" hidden />
+                    <input type="text" name="price" value="@Model.Price" hidden />
                     <div class="product_count">
                         <label for="qty">Quantity:</label>
-                        <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                               class="input-text qty" />
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                class="increase items-count" type="button">
-                            <i class="lnr lnr-chevron-up"></i>
-                        </button>
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                class="reduced items-count" type="button">
-                            <i class="lnr lnr-chevron-down"></i>
-                        </button>
+                        <input type="number" name="quantity" value="1" title="Quantity:" class="input-text qty" />
+                        @*<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++; return false;"
+                    class="increase items-count" type="button">
+                <i class="lnr lnr-chevron-up"></i>
+            </button>
+            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                    class="reduced items-count" type="button">
+                <i class="lnr lnr-chevron-down"></i>
+            </button>*@
                     </div>
                     <div class="card_area">
-                        <a class="main_btn" href="#">Add to Cart</a>
+                        <button class="main_btn" type="submit">Add to Cart</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

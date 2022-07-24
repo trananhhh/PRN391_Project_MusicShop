@@ -8,6 +8,7 @@ create table Accounts(
 	pword nvarchar(20) not null,
 	role int not null
 )
+go
 insert into Accounts(username, pword, role) values('dung151', '1234', 1)
 go
 create table Genres (
@@ -66,16 +67,18 @@ go
 create table Orders (
 	OrderId int identity(1,1) PRIMARY KEY,
 	AccountId int FOREIGN KEY REFERENCES Accounts(accountId),
-	OrderDate date NOT NULL,
-	FirstName nvarchar(100) NOT NULL,
-	LastName nvarchar(100) NOT NULL,
-	Address nvarchar(max) NOT NULL,
-	City nvarchar(100) NOT NULL,
-	State nvarchar(100) NOT NULL,
-	Country nvarchar(100) NOT NULL,
-	Phone nvarchar(12) NOT NULL,
+	OrderDate date ,
+	FirstName nvarchar(100) ,
+	LastName nvarchar(100) ,
+	Address nvarchar(max) ,
+	City nvarchar(100) ,
+	State nvarchar(100) ,
+	Country nvarchar(100) ,	
+	Phone nvarchar(12) ,
 	Total float
 )
+go
+insert into Orders(AccountId) values (1)
 go
 create table OrderDetails(
 	OrderDetailId int identity(1,1) PRIMARY KEY,
