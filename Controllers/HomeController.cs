@@ -193,7 +193,33 @@ namespace Project_MusicShop.Controllers
 
             }
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", null);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Orders");
+        }
+
+        public ActionResult RemoveFromCart(int AlbumId)
+        {
+            List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            foreach (Item item in cart)
+            {
+                if (item.album.AlbumId == AlbumId)
+                {
+                    cart.Remove(item);
+                    break;
+                }
+            }
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            if (cart != null)
+            {
+                ViewBag.total = cart.Sum(item => item.album.Price * item.quantity);
+            }
+            return View(nameof(Cart), cart);
+        }
+
+        public IActionResult ViewOrder()
+        {
+            int? accountid = HttpContext.Session.GetInt32("accountid") ?? -1;
+            List<Order> listorder = _context.Orders.Where(s => s.AccountId == accountid).ToList();
+            return View(listorder);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
