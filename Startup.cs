@@ -31,6 +31,14 @@ namespace Project_MusicShop
             //    => option.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddDbContext<PRN391_Project_MusicShopContext>(option 
                 => option.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +58,7 @@ namespace Project_MusicShop
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

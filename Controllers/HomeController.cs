@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Project_MusicShop.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -99,6 +102,40 @@ namespace Project_MusicShop.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(IFormCollection values)
+        {
+            string username = values["UserName"];
+            string password = values["Password"];
+            string action = values["action"];
+            Account acc1 = _context.Accounts.FirstOrDefault(s => s.Username == username && s.Pword == password);
+
+            if (acc1!=null){
+                HttpContext.Session.SetInt32("roleId", acc1.Role);
+                HttpContext.Session.SetString("username", acc1.Username);
+                return RedirectToAction(nameof(Index));
+            }else{
+                if (action.Equals("register"))
+                {
+                    Account acc = new Account(username, password, 1);
+                    _context.Add(acc);
+                    _context.SaveChanges();
+                    HttpContext.Session.SetInt32("roleId", acc.Role);
+                    HttpContext.Session.SetString("username", acc.Username);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View();
+            }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.SetString("username", "");
+            HttpContext.Session.SetInt32("roleId", -1);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
