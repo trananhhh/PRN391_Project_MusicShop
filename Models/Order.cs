@@ -13,6 +13,7 @@ namespace Project_MusicShop.Models
         }
 
         public int OrderId { get; set; }
+        public int? AccountId { get; set; }
         public DateTime OrderDate { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -21,9 +22,9 @@ namespace Project_MusicShop.Models
         public string State { get; set; }
         public string Country { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
         public double? Total { get; set; }
 
+        public virtual Account Account { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

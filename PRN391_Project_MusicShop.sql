@@ -1,8 +1,14 @@
-﻿--drop database PRN391_Project_MusicShop
-
-create database PRN391_Project_MusicShop
+﻿create database PRN391_Project_MusicShop
 go 
 use PRN391_Project_MusicShop
+go
+create table Accounts(
+	accountId int identity(1,1) Primary Key,
+	username nvarchar(20) not null,
+	pword nvarchar(20) not null,
+	role int not null
+)
+insert into Accounts(username, pword, role) values('dung151', '1234', 1)
 go
 create table Genres (
 	GenreId int identity(1,1) PRIMARY KEY,
@@ -25,18 +31,19 @@ go
 create table Artists (
 	ArtistId int identity(1,1) PRIMARY KEY,
 	Name nvarchar(100) NOT NULL,
+	img nvarchar(max) null
 )
 go
 insert into Artists values
-('Harry Styles'),
-('Drake'),
-('Taylor Swift'),
-('The Weekend'),
-('Ed Sheeran'),
-('Maroon 5'),
-('Billie Eilish'),
-('Son Tung MTP'),
-('Vu.')
+('Harry Styles', null),
+('Drake', null),
+('Taylor Swift', null),
+('The Weekend', null),
+('Ed Sheeran', null),
+('Maroon 5', null),
+('Billie Eilish', null),
+('Son Tung MTP', null),
+('Vu.', null)
 go
 create table Albums(
 	AlbumId int identity(1,1) PRIMARY KEY,
@@ -46,7 +53,6 @@ create table Albums(
 	Price float NOT NULL,
 	AlbumUrl nvarchar(max) NOT NULL
 )
-go
 insert into Albums values
 (1, 9, N'Vũ Trụ Song Song', 25.00, 'https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/b6/08/14/b608145a-cbe3-452f-51c6-4732d36fec7e/190295287139.jpg/1000x1000bb.webp'),
 (1, 5, N'÷ (Deluxe)', 25.00, 'https://is4-ssl.mzstatic.com/image/thumb/Features116/v4/17/0c/9d/170c9d95-1f43-eb0d-cf43-1ac6ee26877e/source/600x600bb.webp'),
@@ -59,6 +65,7 @@ insert into Albums values
 go
 create table Orders (
 	OrderId int identity(1,1) PRIMARY KEY,
+	AccountId int FOREIGN KEY REFERENCES Accounts(accountId),
 	OrderDate date NOT NULL,
 	FirstName nvarchar(100) NOT NULL,
 	LastName nvarchar(100) NOT NULL,
@@ -67,7 +74,6 @@ create table Orders (
 	State nvarchar(100) NOT NULL,
 	Country nvarchar(100) NOT NULL,
 	Phone nvarchar(12) NOT NULL,
-	Email nvarchar(max) NOT NULL,
 	Total float
 )
 go

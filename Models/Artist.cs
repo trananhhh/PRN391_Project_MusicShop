@@ -14,6 +14,7 @@ namespace Project_MusicShop.Models
 
         public int ArtistId { get; set; }
         public string Name { get; set; }
+        public string Img { get; set; }
 
         public virtual ICollection<Album> Albums { get; set; }
     }
