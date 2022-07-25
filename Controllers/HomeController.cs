@@ -158,7 +158,7 @@ namespace Project_MusicShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CheckOut([Bind("AccountId", "OrderDate", "FirstName", "LastName", "Address", "City", "State", "Country", "Phone", "Total")] Order order)
+        public IActionResult Checkout([Bind("AccountId", "OrderDate", "FirstName", "LastName", "Address", "City", "State", "Country", "Phone", "Total")] Order order)
         {
             DateTime orderdate = DateTime.Now;
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");

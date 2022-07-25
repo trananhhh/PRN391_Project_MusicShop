@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <h3>Billing Details</h3>
-                    <form class="row contact_form" asp-controller="Home" asp-action="CheckOut" name="orderform" method="post" novalidate="novalidate">
+                    <form class="row contact_form" name="orderform" method="POST" novalidate="novalidate">
                         <div class="col-md-6 form-group ">
                             <input asp-for="FirstName" type="text" class="form-control" placeholder="First name" />
                         </div>
@@ -32,13 +32,15 @@
                         <div class="col-md-12 form-group ">
                             <input type="text" class="form-control" placeholder="Country" asp-for="Country" />
                         </div>
-                        <input type="text" asp-for="AccountId" value="@accountid" />
-                        <input type="text" asp-for="Total" value="@ViewBag.total" />
-                        <input type="text" asp-for="OrderDate" value="@DateTime.Now" />
+                        <input type="text"  class="form-control" asp-for="AccountId" value="@accountid" hidden/>
+                        <input type="text" class="form-control" asp-for="Total" value="@ViewBag.total" hidden />
+                        <input type="text" class="form-control" asp-for="OrderDate" value="@DateTime.Now" hidden />
 
                     </form>
                 </div>
                 <div class="col-lg-4">
+                    <br />
+                    <hr />
                     <div class="order_box">
                         <h2>Your Order</h2>
                         <ul class="list">
@@ -57,7 +59,7 @@
                                         @{
                                             int subPrice = (int)(item.quantity * item.album.Price);
                                         }
-                                        <span class="last">$@subPrice</span>
+                                        <span class="last">$@subPrice.00</span>
                                     </a>
                                 </li>
                             }
@@ -73,7 +75,7 @@
 
                                 <a href="#">
                                     Total
-                                    <span>$@ViewBag.total</span>
+                                    <span>$@ViewBag.total.00</span>
                                 </a>
                             </li>
                         </ul>
